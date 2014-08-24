@@ -1,7 +1,7 @@
 {
 	"name": "paths-js",
 	"version": "0.2.12",
-	"main": "dist/amd",
+	"main": "dist/global/paths.js",
 	"ignore": [
 		".gitignore",
 		"node_modules",
