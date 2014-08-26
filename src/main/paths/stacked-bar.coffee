@@ -30,19 +30,14 @@ define [
         right = left + w
         bottom = scale(0)
         top = scale(el)
-        #for _, val of el
-        #  bottom = top
-        #  top = bottom + scale(val)
-        #  line = Rectangle(left: left, right: right, bottom: bottom, top: top)
-        #  curves.push 0.enhance compute,
-        #   item: data[j][i]
-        #   line: line
-        #   index: j
-        line = Rectangle(left: left, right: right, bottom: bottom, top: top)
-        curves.push O.enhance compute,
-          item: data[j][i]
-          line: line
-          index: j
+        for _, val of el
+          bottom = top
+          top = bottom + scale(val)
+          line = Rectangle(left: left, right: right, bottom: bottom, top: top)
+          curves.push 0.enhance compute,
+           item: data[j][i]
+           line: line
+           index: j
 
     curves: curves
     scale: scale
