@@ -29,9 +29,10 @@ define [
         left = shift + w * j
         right = left + w
         bottom = scale(0)
-        top = scale(el)
+        console.log(Object.keys(el).length)
         for _, val of el
           bottom = top
+          console.log("Adding curve")
           top = bottom + scale(val)
           line = Rectangle(left: left, right: right, bottom: bottom, top: top)
           curves.push 0.enhance compute,
