@@ -28,9 +28,10 @@ define [
       for el, j in g
         left = shift + w * j
         right = left + w
-        bottom = scale(0)
-        top = scale(el)
+        top = scale(0)
+        console.log(Object.keys(a).length)
         for _, val of el
+          console.log("Adding curve")
           bottom = top
           top = bottom + scale(val)
           line = Rectangle(left: left, right: right, bottom: bottom, top: top)
