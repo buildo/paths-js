@@ -14,10 +14,11 @@ define [
   './sector'
   './semi-regular-polygon'
   './smooth-line'
+  './stacked-bar'
   './stock'
   './tree'
   './waterfall'
-], (Bar, Bezier, Connector, CurvedRectangle, Graph, Linear, Ops, Path, Pie, Polygon, Radar, Rectangle, Sector, SemiRegularPolygon, SmoothLine, Stock, Tree, Waterfall)->
+], (Bar, Bezier, Connector, CurvedRectangle, Graph, Linear, Ops, Path, Pie, Polygon, Radar, Rectangle, Sector, SemiRegularPolygon, SmoothLine, StackedBar, Stock, Tree, Waterfall)->
 
   window.paths =
     Bar: Bar
@@ -35,6 +36,7 @@ define [
     Sector: Sector
     SemiRegularPolygon: SemiRegularPolygon
     SmoothLine: SmoothLine
+    StackedBar: StackedBar
     Stock: Stock
     Tree: Tree
     Waterfall: Waterfall
