@@ -10,9 +10,7 @@ define [
     min = 0
     max = 0
     for d, i in data
-      console.log(d)
-      d_sorted = d.sort()
-      console.log(d_sorted)
+      d_sorted = d.sort().reverse()
       for el, j in d_sorted
         val = accessor(el)
         if val < min then min = val
@@ -26,7 +24,7 @@ define [
     scale = Linear [min, max], [height, 0]
 
     for g, i in groups
-      w = group_width / g.length
+      w = group_width 
       shift = (group_width + gutter) * i
       for el, j in g
         left = shift
