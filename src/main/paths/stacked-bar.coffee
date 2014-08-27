@@ -10,7 +10,10 @@ define [
     min = 0
     max = 0
     for d, i in data
-      for el, j in d
+      console.log(d)
+      d_sorted = d.sort()
+      console.log(d_sorted)
+      for el, j in d_sorted
         val = accessor(el)
         if val < min then min = val
         if val > max then max = val
@@ -26,18 +29,10 @@ define [
       w = group_width / g.length
       shift = (group_width + gutter) * i
       for el, j in g
-        left = shift + w * j
+        left = shift
         right = left + w
         bottom = scale(0)
         top = scale(el)
-        #for _, val of el
-        #  bottom = top
-        #  top = bottom + scale(val)
-        #  line = Rectangle(left: left, right: right, bottom: bottom, top: top)
-        #  curves.push 0.enhance compute,
-        #   item: data[j][i]
-        #   line: line
-        #   index: j
         line = Rectangle(left: left, right: right, bottom: bottom, top: top)
         curves.push O.enhance compute,
           item: data[j][i]
