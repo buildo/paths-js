@@ -24,7 +24,7 @@ define [
 
     for g, i in groups
       w = group_width
-      shift = (grou_width + gutter) * i
+      shift = (group_width + gutter) * i
       g.sort (x, y) ->
         if accessor(x) < accessor(y) then 1
         else if accessor(y) < accessor(x) then -1
