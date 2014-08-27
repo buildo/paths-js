@@ -10,7 +10,7 @@ define [
     min = 0
     max = 0
     for d, i in data
-      for el, j in d_sorted
+      for el, j in d
         val = accessor(el)
         if val < min then min = val
         if val > max then max = val
