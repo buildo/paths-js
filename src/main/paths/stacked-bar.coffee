@@ -15,7 +15,7 @@ define [
         if val < min then min = val
         if val > max then max = val
         groups[j] ?= []
-        groups[j][i] = val
+        groups[j][i] = el
 
     n = groups.length
     group_width = (width - gutter * (n - 1)) / n
@@ -24,16 +24,20 @@ define [
 
     for g, i in groups
       w = group_width
-      shift = (group_width + gutter) * i
-      g.sort (x, y) -> if x < y then 1 else if y < x then -1 else 0
+      shift = (grou_width + gutter) * i
+      g.sort (x, y) ->
+        if accessor(x) < accessor(y) then 1
+        else if accessor(y) < accessor(x) then -1
+        else 0
       for el, j in g
         left = shift
         right = left + w
         bottom = scale(0)
-        top = scale(el)
+        val = accessor(el)
+        top = scale(val)
         line = Rectangle(left: left, right: right, bottom: bottom, top: top)
         curves.push O.enhance compute,
-          item: data[j][i]
+          item: el
           line: line
           index: j
 
