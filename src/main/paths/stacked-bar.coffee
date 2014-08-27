@@ -25,9 +25,8 @@ define [
     for g, i in groups
       w = group_width
       shift = (group_width + gutter) * i
-      console.log("group")
-      console.log(g)
-      for el, j in g
+      g_sorted = g.sort().reverse()
+      for el, j in g_sorted
         left = shift
         right = left + w
         bottom = scale(0)
