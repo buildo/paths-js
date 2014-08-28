@@ -38,3 +38,4 @@ define [
     xscale: xscale
     yscale: yscale
     base: base
+    ymax: ymax

@@ -81,9 +81,10 @@ describe 'bar chart axes', ->
       height: 400
       gutter: 15
       axes:
-        step: 2
+        y:
+          step: 2
     expect(bar1.y).not.to.be(undefined)
-    expect(bar1.y).to.eql([0, 2, 4, 6, 8])
+    expect(bar1.y).to.eql([0, 2, 4, 6, 8].map (v) -> { position: v, value: v })
 
   it 'should compute y axis values with requested number of steps', ->
     bar1 = Bar
@@ -92,6 +93,7 @@ describe 'bar chart axes', ->
       height: 400
       gutter: 15
       axes:
-        steps: 5
+        y:
+          steps: 5
     expect(bar1.y).not.to.be(undefined)
-    expect(bar1.y).to.eql([0, 2, 4, 6, 8])
+    expect(bar1.y).to.eql([0, 2, 4, 6, 8].map (v) -> { position: v, value: v })

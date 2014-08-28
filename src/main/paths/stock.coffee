@@ -2,10 +2,10 @@ define [
   './polygon'
   './line-chart-comp'
   './ops'
-], (Polygon, comp, O)->
-
+  './axis'
+], (Polygon, comp, O, Axis) ->
   (options) ->
-    { arranged, scale, xscale, yscale, base } = comp(options)
+    { arranged, scale, xscale, yscale, base, ymax } = comp(options)
     i = -1
 
     polygons = arranged.map ({ points, xmin, xmax }) ->
@@ -25,6 +25,13 @@ define [
           closed: true
         index: i
 
+    axes = options.axes
+    y_axis =
+      if axes?.y?.steps?
+      then Axis.steps [base, ymax], axes.y.steps
+      else if axes?.y? then Axis.step [base, ymax], axes?.y?.step or 1
+
     curves: polygons
     xscale: xscale
     yscale: yscale
+    y: if y_axis then y_axis.map (y) -> { position: y, value: y }

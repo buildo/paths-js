@@ -3,7 +3,7 @@ define [
   './linear'
   './rectangle'
   './axis'
-], (O, Linear, Rectangle, Axis)->
+], (O, Linear, Rectangle, Axis) ->
   ({data, accessor, width, height, gutter, compute, stacked, axes}) ->
     accessor ?= (x) -> x
     gutter ?= 0
@@ -47,8 +47,11 @@ define [
           line: line
           index: el.original_index
 
+    y_axis =
+      if axes?.y?.steps?
+      then Axis.steps [min, max], axes.y.steps
+      else if axes?.y? then Axis.step [min, max], axes?.y?.step or 1
+
     curves: curves
     scale: scale
-    y: if axes?.steps?
-    then Axis.steps [min, max], axes.steps
-    else if axes? then Axis.step [min, max], axes?.step or 1
+    y: if y_axis then y_axis.map (y) -> { position: y, value: y }

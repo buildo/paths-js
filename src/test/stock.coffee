@@ -128,3 +128,30 @@ describe 'stock chart scales', ->
     scale = stock1.yscale
     expect(scale(0)).to.be(200)
     expect(scale(22)).to.be(0)
+
+describe 'stock chart axes', ->
+  it 'should compute y axis values with requested step', ->
+    stock1 = Stock
+      data: data
+      xaccessor: date
+      yaccessor: (d) -> d.value
+      width: 300
+      height: 200
+      axes:
+        y:
+          step: 2
+    expect(stock1.y).not.to.be(undefined)
+    expect(stock1.y).to.eql([8, 10, 12, 14, 16, 18, 20, 22].map (v) -> { position: v, value: v })
+
+  it 'should compute y axis values with requested number of steps', ->
+    stock1 = Stock
+      data: data
+      xaccessor: date
+      yaccessor: (d) -> d.value
+      width: 300
+      height: 200
+      axes:
+        y:
+          steps: 5
+    expect(stock1.y).not.to.be(undefined)
+    expect(stock1.y).to.eql([8, 11, 14, 17, 20].map (v) -> { position: v, value: v })

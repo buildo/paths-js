@@ -1,5 +1,5 @@
 define [
-], ()->
+], ->
   step = (interval, step) ->
     min = Math.floor interval[0]
     max = Math.ceil interval[1]
