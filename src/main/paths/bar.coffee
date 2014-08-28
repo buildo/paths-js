@@ -26,10 +26,14 @@ define [
       w = if stacked then group_width else group_width / g.length
       shift = (group_width + gutter) * i
 
-      sorted_g = g.map((ge, i) -> {original_index: i, value: ge}).slice().sort (x, y) ->
-        if accessor(x.value) < accessor(y.value) then 1
-        else if accessor(y.value) < accessor(x.value) then -1
-        else 0
+      sorted_g = g.map (ge, i) ->
+        original_index: i
+        value: ge
+      if stacked
+        sorted_g.sort (x, y) ->
+          if accessor(x.value) < accessor(y.value) then 1
+          else if accessor(y.value) < accessor(x.value) then -1
+          else 0
 
       for el, j in sorted_g
         left = shift + if stacked then 0 else w * j

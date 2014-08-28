@@ -35,7 +35,6 @@ define [
     Sector: Sector
     SemiRegularPolygon: SemiRegularPolygon
     SmoothLine: SmoothLine
-    StackedBar: StackedBar
     Stock: Stock
     Tree: Tree
     Waterfall: Waterfall
