@@ -2,8 +2,9 @@ define [
   './ops'
   './linear'
   './rectangle'
-], (O, Linear, Rectangle)->
-  ({data, accessor, width, height, gutter, compute, stacked}) ->
+  './axis'
+], (O, Linear, Rectangle, Axis)->
+  ({data, accessor, width, height, gutter, compute, stacked, axes}) ->
     accessor ?= (x) -> x
     gutter ?= 0
     groups = []
@@ -48,3 +49,4 @@ define [
 
     curves: curves
     scale: scale
+    y: (Axis.step [min, max], axes?.step) if axes?

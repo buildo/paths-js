@@ -72,3 +72,15 @@ describe 'bar chart scale', ->
       gutter: 15
     expect(bar1.scale(81)).to.be(0)
     expect(bar1.scale(0)).to.be(400)
+
+describe 'bar chart axes', ->
+  it 'should compute y axis values with requested step', ->
+    bar1 = Bar
+      data: data
+      width: 300
+      height: 400
+      gutter: 15
+      axes:
+        step: 2
+    expect(bar1.y).not.to.be(undefined)
+    expect(bar1.y).to.eql([0, 2, 4, 6, 8])

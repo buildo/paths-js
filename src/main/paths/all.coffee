@@ -17,7 +17,8 @@ define [
   './stock'
   './tree'
   './waterfall'
-], (Bar, Bezier, Connector, CurvedRectangle, Graph, Linear, Ops, Path, Pie, Polygon, Radar, Rectangle, Sector, SemiRegularPolygon, SmoothLine, Stock, Tree, Waterfall)->
+  './axis'
+], (Bar, Bezier, Connector, CurvedRectangle, Graph, Linear, Ops, Path, Pie, Polygon, Radar, Rectangle, Sector, SemiRegularPolygon, SmoothLine, Stock, Tree, Waterfall, Axis)->
 
   window.paths =
     Bar: Bar
@@ -38,3 +39,4 @@ define [
     Stock: Stock
     Tree: Tree
     Waterfall: Waterfall
+    Axis: Axis
