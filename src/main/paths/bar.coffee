@@ -49,4 +49,6 @@ define [
 
     curves: curves
     scale: scale
-    y: (Axis.step [min, max], axes?.step) if axes?
+    y: if axes?.steps?
+    then Axis.steps [min, max], axes.steps
+    else if axes? then Axis.step [min, max], axes?.step or 1
