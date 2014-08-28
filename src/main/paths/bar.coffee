@@ -3,7 +3,7 @@ define [
   './linear'
   './rectangle'
 ], (O, Linear, Rectangle)->
-  ({data, accessor, width, height, gutter, compute}) ->
+  ({data, accessor, width, height, gutter, compute, stacked}) ->
     accessor ?= (x) -> x
     gutter ?= 0
     groups = []
@@ -23,18 +23,24 @@ define [
     scale = Linear [min, max], [height, 0]
 
     for g, i in groups
-      w = group_width / g.length
+      w = if stacked then group_width else group_width / g.length
       shift = (group_width + gutter) * i
-      for el, j in g
-        left = shift + w * j
+
+      sorted_g = g.map((ge, i) -> {original_index: i, value: ge}).slice().sort (x, y) ->
+        if accessor(x.value) < accessor(y.value) then 1
+        else if accessor(y.value) < accessor(x.value) then -1
+        else 0
+
+      for el, j in sorted_g
+        left = shift + if stacked then 0 else w * j
         right = left + w
         bottom = scale(0)
-        top = scale(el)
+        top = scale(el.value)
         line = Rectangle(left: left, right: right, bottom: bottom, top: top)
         curves.push O.enhance compute,
-          item: data[j][i]
+          item: data[el.original_index][i]
           line: line
-          index: j
+          index: el.original_index
 
     curves: curves
     scale: scale

@@ -5,7 +5,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-concat')
   grunt.loadNpmTasks('grunt-contrib-requirejs')
-  # grunt.loadNpmTasks('grunt-urequire')
+  grunt.loadNpmTasks('grunt-urequire')
   grunt.loadNpmTasks('grunt-mocha-cli')
 
   grunt.initConfig
@@ -46,11 +46,11 @@ module.exports = (grunt)->
         dest: '<%= config.test_dist %>'
         ext: '.js'
 
-    # urequire:
-    #   dist:
-    #     template: 'nodejs'
-    #     path: "<%= config.dist %>/amd"
-    #     dstPath: "<%= config.dist %>/node"
+    urequire:
+      dist:
+        template: 'nodejs'
+        path: "<%= config.dist %>/amd"
+        dstPath: "<%= config.dist %>/node"
 
     copy:
       dist:
@@ -73,8 +73,7 @@ module.exports = (grunt)->
     watch:
       dist:
         files: ['<%= config.src %>/{,**/}*.coffee']
-        # tasks: ['coffee:dist', 'urequire:dist', 'clean:global']
-        tasks: ['coffee:dist', 'clean:global']
+        tasks: ['coffee:dist', 'urequire:dist', 'clean:global']
       test:
         files: ['<%= config.test %>/{,**/}*.coffee']
         tasks: ['coffee:test', 'mochacli']
@@ -97,7 +96,7 @@ module.exports = (grunt)->
     'coffee:dist'
     'coffee:temp'
     'requirejs:compile'
-    # 'urequire:dist'
+    'urequire:dist'
     'copy:dist'
     'clean:global'
   ]

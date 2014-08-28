@@ -44,6 +44,20 @@ describe 'bar chart', ->
     expect(bar1.curves[14].myitem).to.be(bar1.curves[14].item)
     expect(bar1.curves[14].myindex).to.be(bar1.curves[14].index)
 
+  describe 'stacked', ->
+    it 'should give access to the original items', ->
+      bar1 = Bar
+        stacked: true
+        data: data
+        width: 300
+        height: 400
+        gutter: 15
+        compute:
+          myitem: (i, d) -> d
+          myindex: (i, d) -> i
+      expect(bar1.curves[13].item).to.be(data[3][2])
+      expect(bar1.curves[22].item).to.be(data[2][4])
+
 describe 'bar chart scale', ->
   it 'should take into account all data involved', ->
     expect(bar.scale(9)).to.be(0)
