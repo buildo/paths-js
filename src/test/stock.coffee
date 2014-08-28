@@ -130,10 +130,41 @@ describe 'stock chart scales', ->
     expect(scale(22)).to.be(0)
 
 describe 'stock chart axes', ->
+  year = [
+    [
+      { year: 2012, month: 1, value: 13 }
+      { year: 2012, month: 2, value: 12 }
+      { year: 2012, month: 3, value: 15 }
+      { year: 2012, month: 4, value: 10 }
+      { year: 2012, month: 5, value: 9 }
+      { year: 2012, month: 6, value: 8 }
+      { year: 2012, month: 7, value: 11 }
+      { year: 2012, month: 8, value: 10 }
+      { year: 2012, month: 9, value: 13 }
+      { year: 2012, month: 10, value: 13 }
+      { year: 2012, month: 11, value: 12 }
+      { year: 2012, month: 12, value: 9 }
+    ]
+    [
+      { year: 2012, month: 1, value: 21 }
+      { year: 2012, month: 2, value: 22 }
+      { year: 2012, month: 3, value: 22 }
+      { year: 2012, month: 4, value: 20 }
+      { year: 2012, month: 5, value: 19 }
+      { year: 2012, month: 6, value: 18 }
+      { year: 2012, month: 7, value: 22 }
+      { year: 2012, month: 8, value: 19 }
+      { year: 2012, month: 9, value: 19 }
+      { year: 2012, month: 10, value: 18 }
+      { year: 2012, month: 11, value: 16 }
+      { year: 2012, month: 12, value: 15 }
+    ]
+  ]
+
   it 'should compute y axis values with requested step', ->
     stock1 = Stock
-      data: data
-      xaccessor: date
+      data: year
+      xaccessor: ({month}) -> month
       yaccessor: (d) -> d.value
       width: 300
       height: 200
@@ -145,8 +176,8 @@ describe 'stock chart axes', ->
 
   it 'should compute y axis values with requested number of steps', ->
     stock1 = Stock
-      data: data
-      xaccessor: date
+      data: year
+      xaccessor: ({month}) -> month
       yaccessor: (d) -> d.value
       width: 300
       height: 200
@@ -155,3 +186,31 @@ describe 'stock chart axes', ->
           steps: 5
     expect(stock1.y).not.to.be(undefined)
     expect(stock1.y).to.eql([8, 11, 14, 17, 20].map (v) -> { position: v, value: v })
+
+  it 'should compute x axis values with requested step', ->
+    stock1 = Stock
+      data: year
+      xaccessor: ({month}) -> month
+      yaccessor: (d) -> d.value
+      width: 300
+      height: 200
+      axes:
+        x:
+          step: 2
+    expect(stock1.x).not.to.be(undefined)
+    expect(stock1.x).to.eql([1, 3, 5, 7, 9, 11].map (v) -> { position: v, value: v })
+
+  it 'should compute y axis values with requested number of steps', ->
+    stock1 = Stock
+      data: year
+      xaccessor: ({month}) -> month
+      yaccessor: (d) -> d.value
+      width: 300
+      height: 200
+      axes:
+        x:
+          steps: 6
+
+    expect(stock1.x).not.to.be(undefined)
+    expect(stock1.x).to.eql([1, 3, 5, 7, 9, 11].map (v) -> { position: v, value: v })
+
