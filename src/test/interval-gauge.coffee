@@ -48,7 +48,7 @@ describe 'interval gauge chart', ->
     it 'should compute x axis values with requested step', ->
       expect(gauge.x).to.eql([10, 30, 50, 70, 90].map (v) -> { position: v, value: v })
 
-    it 'should compute y axis values with requested number of steps', ->
+    it 'should compute x axis values with requested number of steps', ->
       gauge1 = IntervalGauge
         data: data
         accessor: ({interval}) -> interval
@@ -61,3 +61,19 @@ describe 'interval gauge chart', ->
           x:
             steps: 4
       expect(gauge1.x).to.eql([0, 25, 50, 75, 100].map (v) -> { position: v, value: v })
+
+    it 'should compute x axis values as split values', ->
+      gauge1 = IntervalGauge
+        data: data
+        accessor: ({interval}) -> interval
+        width: 100
+        height: 10
+        compute:
+          myitem: (i, d) -> d
+          myindex: (i, d) -> i
+        axes:
+          x:
+            splits: true
+            min: 10
+            max: 90
+      expect(gauge1.x).to.eql([40, 50, 60, 80].map (v) -> { position: v, value: v })

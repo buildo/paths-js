@@ -49,12 +49,18 @@ define [
         line: Rectangle(left: scale(left), right: scale(left + width), bottom: 0, top: height)
       left += width
 
-    x_interval = [axes?.x?.min or min, axes?.x?.max or max]
-    x_axis =
-      if axes?.x?.steps?
-      then Axis.steps x_interval, axes.x.steps
-      else if axes?.x? then Axis.step x_interval, axes?.x?.step or 1
+    if axes?.x?
+      if axes.x.splits?
+        bounds = (n) -> (axes?.x?.min ? min) <= n and n <= (axes?.x?.max ? max)
+        x_axis = ([min].concat(splits.map ({interval}) -> interval[1])).filter bounds
+      else
+        x_interval = [axes?.x?.min or min, axes?.x?.max or max]
+        x_axis =
+          if axes.x.steps?
+            Axis.steps x_interval, axes.x.steps
+          else
+            Axis.step x_interval, axes.x.step or 1
 
     curves: curves
     scale: scale
-    x: if x_axis then x_axis.map (x) -> { position: x, value: x }
+    x: if x_axis? then x_axis.map (x) -> { position: x, value: x }
