@@ -6,31 +6,36 @@ define [
 ], (O, Linear, Rectangle, Axis) ->
   ({data, accessor, width, height, compute, axes}) ->
     accessor ?= (x) -> x
-    items = (item for item in data).sort (a, b) ->
-      i1 = accessor a
-      i2 = accessor b
-      if i1[0] <= i2[0] and i1[1] >= i2[1] then 1
-      else if i1[0] > i2[0] and i1[1] < i2[1] then -1
+    items = (item for item in data).map (item) ->
+      item: item
+      interval: accessor item
+    .sort (a, b) ->
+      i1 = a.interval
+      i2 = b.interval
+
+      if i1[0] <= i2[0] and i1[1] >= i2[1]
+      then 1
+      else if i2[0] <= i1[0] and i2[1] >= i1[1]
+      then -1
       else 0
 
-    splits = [
-      item: items[0]
-      interval: [accessor(items[0])[0], accessor(items[0])[1]]
-    ]
+    [min, max] = [items[items.length - 1].interval[0], items[items.length - 1].interval[1]]
+
+    splits = [items[0]]
+
     for item in items[1..]
-      interval = accessor item
-
       left = splits[0].interval[0]
-      if interval[0] < left
-        splits.unshift
-          item: item
-          interval: [interval[0], left]
-
       right = splits[splits.length - 1].interval[1]
-      if interval[1] > right
+
+      if item.interval[0] < left
+        splits.unshift
+          item: item.item
+          interval: [item.interval[0], left]
+
+      if item.interval[1] > right
         splits.push
-          item: item
-          interval: [right, interval[1]]
+          item: item.item
+          interval: [right, item.interval[1]]
 
     scale = Linear [min, max], [0, width]
     curves = []
@@ -41,10 +46,9 @@ define [
       curves.push O.enhance compute,
         item: split.item
         index: i
-        line: Rectangle(left: scale(left), right: scale(left + width), bottom: height, top: 0)
+        line: Rectangle(left: scale(left), right: scale(left + width), bottom: 0, top: height)
       left += width
 
-    [min, max] = [splits[0].interval[0], splits[splits.length - 1].interval[1]]
     x_interval = [axes?.x?.min or min, axes?.x?.max or max]
     x_axis =
       if axes?.x?.steps?
