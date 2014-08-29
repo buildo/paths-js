@@ -18,7 +18,8 @@ define [
   './tree'
   './waterfall'
   './axis'
-], (Bar, Bezier, Connector, CurvedRectangle, Graph, Linear, Ops, Path, Pie, Polygon, Radar, Rectangle, Sector, SemiRegularPolygon, SmoothLine, Stock, Tree, Waterfall, Axis)->
+  './interval-gauge'
+], (Bar, Bezier, Connector, CurvedRectangle, Graph, Linear, Ops, Path, Pie, Polygon, Radar, Rectangle, Sector, SemiRegularPolygon, SmoothLine, Stock, Tree, Waterfall, Axis, IntervalGauge)->
 
   window.paths =
     Bar: Bar
@@ -40,3 +41,4 @@ define [
     Tree: Tree
     Waterfall: Waterfall
     Axis: Axis
+    IntervalGauge: IntervalGauge
