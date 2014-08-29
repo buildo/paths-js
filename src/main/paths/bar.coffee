@@ -47,10 +47,11 @@ define [
           line: line
           index: el.original_index
 
+    y_interval = [axes?.y?.min or min, axes?.y?.max or max]
     y_axis =
       if axes?.y?.steps?
-      then Axis.steps [min, max], axes.y.steps
-      else if axes?.y? then Axis.step [min, max], axes?.y?.step or 1
+      then Axis.steps y_interval, axes.y.steps
+      else if axes?.y? then Axis.step y_interval, axes?.y?.step or 1
 
     curves: curves
     scale: scale

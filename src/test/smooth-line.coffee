@@ -167,10 +167,12 @@ describe 'smooth line chart axes', ->
       height: 200
       axes:
         y:
-          step: 2
+          step: .5
+          min: 8
+          max: 10
 
     expect(chart1.y).not.to.be(undefined)
-    expect(chart1.y).to.eql([8, 10, 12, 14, 16, 18, 20, 22].map (v) -> { position: v, value: v })
+    expect(chart1.y).to.eql([8, 8.5, 9, 9.5, 10].map (v) -> { position: v, value: v })
 
   it 'should compute y axis values with requested number of steps', ->
     chart1 = SmoothLine
@@ -196,10 +198,12 @@ describe 'smooth line chart axes', ->
       axes:
         x:
           step: 2
+          min: 2
+          max: 11
     expect(chart1.x).not.to.be(undefined)
-    expect(chart1.x).to.eql([1, 3, 5, 7, 9, 11].map (v) -> { position: v, value: v })
+    expect(chart1.x).to.eql([2, 4, 6, 8, 10].map (v) -> { position: v, value: v })
 
-  it 'should compute y axis values with requested number of steps', ->
+  it 'should compute x axis values with requested number of steps', ->
     chart1 = SmoothLine
       data: year
       xaccessor: ({month}) -> month
