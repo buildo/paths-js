@@ -19,11 +19,7 @@ define [
       then -1
       else 0
 
-    [min, max] = [
-      items[items.length - 1].interval[0]
-      items[items.length - 1].interval[1]
-    ]
-
+    items[0].original_interval = items[0].interval[..]
     splits = [items[0]]
 
     for item in items[1..]
@@ -34,28 +30,59 @@ define [
         splits.unshift
           item: item.item
           interval: [item.interval[0], left]
+          original_interval: [item.interval[0], left]
 
       if item.interval[1] > right
         splits.push
           item: item.item
           interval: [right, item.interval[1]]
+          original_interval: [right, item.interval[1]]
 
-    scale = Linear [min, max], [0, width]
+    if min_interval?
+      for i in [0 .. splits.length - 2]
+        int = splits[i].interval
+        if int[1] - int[0] < min_interval
+          splits[i].interval[1] = int[0] + min_interval
+          splits[i + 1].interval[0] = splits[i].interval[1]
+      last = splits[splits.length - 1]
+      last.interval[1] = Math.max last.interval[1], last.interval[0] + min_interval
+
+    [min, max] = [
+      splits[0].interval[0]
+      splits[splits.length - 1].interval[1]
+    ]
+
+    linear_scale = Linear [min, max], [0, width]
+    scale = if min_interval?
+      splits = splits.map (split) ->
+        split.scale = Linear split.original_interval, split.interval
+        split
+      (v) ->
+        (splits.filter (split) ->
+          split.original_interval[0] <= v and v <= split.original_interval[1]
+        )[0]?.scale(v)
+    else
+      linear_scale
+
     curves = []
 
     left = 0
     for split, i in splits
-      width = Math.max min_interval or 0, split.interval[1] - split.interval[0]
+      width = split.interval[1] - split.interval[0]
       curves.push O.enhance compute,
         item: split.item
         index: i
-        line: Rectangle(left: scale(left), right: scale(left + width), bottom: 0, top: height)
+        line: Rectangle(left: linear_scale(left), right: linear_scale(left + width), bottom: 0, top: height)
       left += width
 
     if axes?.x?
       if axes.x.splits?
         bounds = (n) -> (axes?.x?.min ? min) <= n and n <= (axes?.x?.max ? max)
-        x_axis = ([min].concat(splits.map ({interval}) -> interval[1])).filter bounds
+        high = if min_interval?
+          ({original_interval}) -> original_interval[1]
+        else
+          ({interval}) -> interval[1]
+        x_axis = ([min].concat splits.map high).filter bounds
       else
         x_interval = [axes?.x?.min or min, axes?.x?.max or max]
         x_axis =
