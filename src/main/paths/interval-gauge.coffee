@@ -4,7 +4,7 @@ define [
   './rectangle'
   './axis'
 ], (O, Linear, Rectangle, Axis) ->
-  ({data, accessor, width, height, compute, axes}) ->
+  ({data, accessor, width, height, compute, axes, min_interval}) ->
     accessor ?= (x) -> x
     items = (item for item in data).map (item) ->
       item: item
@@ -19,7 +19,10 @@ define [
       then -1
       else 0
 
-    [min, max] = [items[items.length - 1].interval[0], items[items.length - 1].interval[1]]
+    [min, max] = [
+      items[items.length - 1].interval[0]
+      items[items.length - 1].interval[1]
+    ]
 
     splits = [items[0]]
 
@@ -42,7 +45,7 @@ define [
 
     left = 0
     for split, i in splits
-      width = split.interval[1] - split.interval[0]
+      width = Math.max min_interval or 0, split.interval[1] - split.interval[0]
       curves.push O.enhance compute,
         item: split.item
         index: i
