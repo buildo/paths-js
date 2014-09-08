@@ -15,16 +15,20 @@ define [
     ymin: O.min ycoords
     ymax: O.max ycoords
 
-  ({data, xaccessor, yaccessor, width, height, closed}) ->
+  ({data, xaccessor, yaccessor, width, height, closed, axes}) ->
     xaccessor ?= ([x, y]) -> x
     yaccessor ?= ([x, y]) -> y
     f = (i) -> [xaccessor(i), yaccessor(i)]
     arranged = (box(datum, f) for datum in data)
 
-    xmin = O.min(arranged.map (d) -> d.xmin)
-    xmax = O.max(arranged.map (d) -> d.xmax)
-    ymin = O.min(arranged.map (d) -> d.ymin)
-    ymax = O.max(arranged.map (d) -> d.ymax)
+    dataxmin = O.min(arranged.map (d) -> d.xmin)
+    xmin = if axes?.x?.min? then Math.min(axes.x.min, dataxmin) else dataxmin
+    dataxmax = O.max(arranged.map (d) -> d.xmax)
+    xmax = if axes?.x?.max? then Math.max(axes.x.max, dataxmax) else dataxmax
+    dataymin = O.min(arranged.map (d) -> d.ymin)
+    ymin = if axes?.y?.min? then Math.min(axes.y.min, dataymin) else dataymin
+    dataymax = O.max(arranged.map (d) -> d.ymax)
+    ymax = if axes?.y?.max? then Math.max(axes.y.max, dataymax) else dataymax
     if closed
       ymin = Math.min(ymin, 0)
       ymax = Math.max(ymax, 0)
